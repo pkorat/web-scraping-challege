@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup as bs
 from splinter import Browser
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
-from flask import Flask, render_template, redirect
-from flask_pymongo import PyMongo
 
 
 def scrape():
@@ -75,6 +73,3 @@ def scrape():
     scraped_data['Hemisphere Images'] = hemisphere_image_urls
 
     return scraped_data
-
-app = Flask(__name__)
-
