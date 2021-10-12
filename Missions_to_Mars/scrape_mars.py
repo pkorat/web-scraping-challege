@@ -4,7 +4,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 
 
-def scrape():
+def scrape_all():
 
     # init return dictionary
     scraped_data = {}
@@ -22,8 +22,8 @@ def scrape():
     news_title = soup.find('div', class_='content_title').text
     news_p = soup.find('div', class_='article_teaser_body').text
 
-    scraped_data['News Title'] = news_title
-    scraped_data['News Paragraph'] = news_p
+    scraped_data['news_title'] = news_title
+    scraped_data['news_p'] = news_p
 
     # second page
     url_2 = 'https://spaceimages-mars.com/'
@@ -34,7 +34,7 @@ def scrape():
 
     featured_image_url = soup_2.find('img', {'class': "headerimage fade-in"})['src']
 
-    scraped_data['Image URL'] = featured_image_url
+    scraped_data['featured_image_url'] = url_2 + featured_image_url
 
     # third page
     url_3 = 'https://galaxyfacts-mars.com/'
@@ -46,9 +46,9 @@ def scrape():
 
     mars_facts_df_clean.columns = ['Properties', 'Mars']
 
-    html_mars_ftable = mars_facts_df_clean.to_html().replace('\n', '')
+    html_mars_ftable = mars_facts_df_clean.to_html(index=False).replace('\n', '')
 
-    scraped_data['Mars Facts'] = html_mars_ftable
+    scraped_data['html_mars_ftable'] = html_mars_ftable
 
     # forth page
     url_4 = 'https://marshemispheres.com/'
@@ -69,6 +69,8 @@ def scrape():
                                     'img_url': browser.links.find_by_partial_text('Sample')[0]['href']})
         browser.visit(url_4)
     
-    scraped_data['Hemisphere Images'] = hemisphere_image_urls
+    scraped_data['hemisphere_image_urls'] = hemisphere_image_urls
+
+    browser.quit()
 
     return scraped_data
